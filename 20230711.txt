@@ -1,0 +1,91 @@
+
+1. 페이지 한/영 전환 버튼
+
+	(1) html
+		<select class="mr-5" id="language-select">
+			<option value="">Select Language</option>
+			<option value="ko">한국어</option>
+			<option value="en">English</option>
+		</select>
+		
+	(2) JS
+		1) lang.js
+			var translations = {
+				'ko': {
+					'nav_home': '홈',
+					'nav_about': '개인정보'
+				},
+				'en': {
+					'nav_home': 'Home',
+					'nav_about': 'About'
+				}
+			};
+			
+		2) main.js
+			// 언어 변경
+			document.addEventListener('DOMContentLoaded', function () {
+				function loadLanguage(lang) {
+					for (let key in translations[lang]) {
+						let element = document.getElementById(key);
+						if (element) {
+							element.innerHTML = translations[lang][key];  // use innerHTML instead of textContent
+						}
+					}
+				}
+
+				// Set the initial language
+				const initialLanguage = 'en';  // or 'ko', depending on your preference
+				loadLanguage(initialLanguage);
+
+				// Set the selected value of the language-select element to the initial language
+				document.getElementById('language-select').value = initialLanguage;
+
+				document.getElementById('language-select').addEventListener('change', function() {
+					var lang = this.value;
+					loadLanguage(lang);
+				});
+			});
+			
+2. 하위 div 추가에 따른 상단 요소 이동을 막을때(상단을 고정시키고 싶을 때)
+	(1) html
+		- align-items-start : item을 상단에서 시작
+		- sticky-container : sticky 적용할 상위 div
+		- sticky-top : 해당 요소를 상단에 고정
+		    <div class="container-fluid py-5" id="todo">
+				<div class="container">
+					<div class="position-relative d-flex align-items-center justify-content-center">
+						<h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">ToDo List</h1>
+						<h1 class="position-absolute text-uppercase text-primary">ToDo List</h1>
+					</div>
+					<div class="row align-items-start">
+						<div class="col-lg-6 sticky-container">
+							<h3 id="todo_note" class="mb-4 sticky-top">Notes!</h3>
+							<form id="todo-form">
+								<input type="text" placeholder="Write a To Do and Press Enter" required>
+							</form><br>
+							<div id="notes-li-container">
+								<ul id="todo-list" class="check-list border-left border-primary pt-2 pl-4 ml-2 font-weight-bold mb-1"></ul>
+							</div>
+						</div>
+						<div class="col-lg-6 sticky-container">
+							<h3 id="todo_notice" class="mb-4 sticky-top">Notice!</h3>
+							<form id="todo-form2">
+								<input type="text" placeholder="Write a To Do and Press Enter" required>
+							</form><br>
+							<div id="notes-li-container">
+								<ul id="todo-list2" class="check-list border-left border-primary pt-2 pl-4 ml-2 font-weight-bold mb-1"></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+	(2) css
+		/* 상단위치 고정 */
+		.sticky-top {
+		  position: sticky;
+		  top: 0;
+		}
+		.sticky-container {
+		  overflow: auto;
+		}
