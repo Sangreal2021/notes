@@ -4,7 +4,17 @@ git config --global user.name "유저 이름"
 
 git config --global user.email "가입할 때 사용한 메일 주소"
 
+git clone (Repo 주소)
+
+git branch "브랜치명"
+
 git remote add origin '복사한 링크'
 
-git clone (Repo 주소)
+git checkout "브랜치명"
+
+git add .
+
+git commit -m "확인메세지"
+
+git push origin "브랜치명"
 
