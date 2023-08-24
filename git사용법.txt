@@ -1,0 +1,10 @@
+git init
+
+git config --global user.name "유저 이름"
+
+git config --global user.email "가입할 때 사용한 메일 주소"
+
+git remote add origin '복사한 링크'
+
+git clone (Repo 주소)
+
