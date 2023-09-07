@@ -68,7 +68,7 @@ SELECT deptno FROM emp;
 
 -- CONNECT BY : 계층형 조회
 -- 1) LPAD(' ', 4) : 왼쪽 공백 4칸을 출력
-SELECT		LEVEL, lpad(' ', 4 * (LEVEL-1)) || empno AS lv, mgr, CONNECT_by_isleaf
+SELECT		LEVEL, lpad(' ', 4 * (LEVEL-1)) || empno AS "LV", mgr, CONNECT_by_isleaf
 FROM		emp
 START WITH	mgr IS NULL
 CONNECT BY	PRIOR empno=mgr;
@@ -100,8 +100,46 @@ SELECT	ename, dname, sal FROM emp, dept
 WHERE	emp.deptno=dept.deptno
 AND		EXISTS (SELECT 1 FROM emp WHERE sal > 2000);
 
+-- 	4) 스칼라 서브쿼리
+--	반드시 한 행과 한 칼럼만 반환.
+SELECT	ename AS "이름",
+		sal AS "급여",
+		(SELECT avg(sal) FROM emp) AS "평균급여"
+FROM	emp
+WHERE	empno=7521;
+
+--	5) 연관 서브쿼리
+--	서브쿼리 내에서 메인쿼리 내의 칼럼을 사용하는 것.
+SELECT	* FROM emp a
+WHERE	a.deptno = (SELECT deptno FROM dept b WHERE b.deptno=a.deptno);
 
 
+-- 그룹 함수
+-- (1) ROLLUP
+SELECT		decode(deptno, NULL, '전체합계', deptno),
+			sum(sal)
+FROM		emp
+GROUP BY	rollup(deptno);
+
+SELECT		deptno, job, sum(sal)
+FROM		emp
+GROUP BY	rollup(deptno, job);
+
+-- GROUPING 함수
+-- 소계, 합계 등이 계산되면 GROUPING 함수는 1을 반환, 아니면 0을 반환.
+SELECT	deptno,	grouping(deptno),
+		job, grouping(job),
+		sum(sal)
+FROM	emp
+GROUP BY rollup(deptno, job);
+
+SELECT	deptno,
+		decode(grouping(deptno),1,'전체합계') TOT,
+		job,
+		decode(grouping(job),1,'부서합계') T_DEPT,
+		sum(sal)
+FROM	emp
+GROUP BY rollup(deptno, job);
 
 
 

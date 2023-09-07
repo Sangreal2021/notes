@@ -5,6 +5,7 @@ SELECT * FROM bonus;
 
 -- 직업별(job) 급여합계 중 급여합계가 1000 이상인 직업
 SELECT job, sum(sal) FROM emp GROUP BY job HAVING sum(sal) >= 1000;
+
 SELECT sum(comm), count(comm) FROM emp;
 
 -- 사원번호 7000 ~ 7700번의 부서별 급여합계
@@ -31,7 +32,9 @@ FROM emp;
 
 -- ROWNUM(mysql의 limit), ROWID
 SELECT * FROM emp WHERE rownum <= 1;
+
 SELECT * FROM (SELECT rownum list, ename FROM emp) WHERE rownum <= 5;
+
 SELECT * FROM (SELECT rownum list, ename FROM emp) WHERE list BETWEEN 5 AND 10;
 
 SELECT rowid, empno FROM emp;
