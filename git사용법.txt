@@ -1,3 +1,6 @@
+프로젝트 터미널 선택 : alt + `
+터미널 열기 : ctrl + `
+
 git init
 
 git config --global user.name "유저 이름"
